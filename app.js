@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const userRoute = require("./Routes/user");
+const authRoute = require("./Routes/auth");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const { check, validationResult } = require("express-validator");
@@ -15,7 +15,7 @@ app.use(morgan("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/api", userRoute);
+app.use("/api", authRoute);
 app.use(check, validationResult);
 
 // Mongoos Connect
