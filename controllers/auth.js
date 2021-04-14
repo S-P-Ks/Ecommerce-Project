@@ -43,6 +43,7 @@ exports.signIn = (req, res) => {
 };
 
 exports.signOut = (req, res) => {
+  console.log("Rea");
   res.clearCookie("t");
   return res.json({ message: "User is signed out." });
 };
@@ -52,3 +53,22 @@ exports.requireSignIn = expressJwt({
   algorithms: ["HS256"],
   userProperty: "auth",
 });
+
+exports.isAuth = (req, res, next) => {
+  const user = req.profile && req.auth && req.profile._id == req.auth._id;
+  if (!user) {
+    return res.status(403).json({
+      error: "Access Denied",
+    });
+  }
+  next();
+};
+
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({
+      error: "Admin Resource! Access Denied",
+    });
+  }
+  next();
+};

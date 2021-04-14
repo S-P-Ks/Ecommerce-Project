@@ -1,9 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoute = require("./Routes/auth");
+const userRoute = require("./Routes/user");
+const categoryRoute = require("./Routes/category");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const { check, validationResult } = require("express-validator");
 const { json, urlencoded } = require("body-parser");
 
 require("dotenv").config();
@@ -15,8 +16,16 @@ app.use(morgan("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Application Routes
 app.use("/api", authRoute);
-app.use(check, validationResult);
+app.use("/api", userRoute);
+app.use("/api", categoryRoute);
+
+app.get("/hello", (req, res) => {
+  console.log("reqrqe");
+  return res.send("Hello World");
+});
 
 // Mongoos Connect
 mongoose
